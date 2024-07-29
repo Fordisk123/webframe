@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/fordisk/webframe/conf"
-	"github.com/fordisk/webframe/db"
-	util "github.com/fordisk/webframe/frame"
+	"github.com/Fordisk123/webframe/conf"
+	"github.com/Fordisk123/webframe/db"
+	util "github.com/Fordisk123/webframe/frame"
 	"github.com/go-kratos/kratos/v2/transport/http"
 )
 

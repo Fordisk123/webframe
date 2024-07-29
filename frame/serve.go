@@ -1,9 +1,9 @@
 package util
 
 import (
-	"github.com/fordisk/webframe/errors"
-	"github.com/fordisk/webframe/log"
-	"github.com/fordisk/webframe/middleware"
+	"github.com/Fordisk123/webframe/errors"
+	"github.com/Fordisk123/webframe/log"
+	"github.com/Fordisk123/webframe/middleware"
 	"github.com/go-kratos/kratos/v2"
 	kMidkdeware "github.com/go-kratos/kratos/v2/middleware"
 	"github.com/go-kratos/kratos/v2/middleware/recovery"

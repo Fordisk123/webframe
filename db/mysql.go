@@ -3,7 +3,7 @@ package db
 import (
 	"context"
 	"fmt"
-	flog "github.com/fordisk/webframe/log"
+	flog "github.com/Fordisk123/webframe/log"
 	"github.com/ory/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"

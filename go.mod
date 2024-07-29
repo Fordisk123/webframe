@@ -1,4 +1,4 @@
-module github.com/fordisk/webframe
+module github.com/Fordisk123/webframe
 
 go 1.21
 
