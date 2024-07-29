@@ -143,7 +143,7 @@ func HttpErrorHandler(w http.ResponseWriter, req *http.Request, err error) {
 
 	if errors.As(err, &badRequestError) ||
 		errors.As(err, &internalServerErrorError) {
-		keErrorHandle(w, err)
+		errorHandle(w, err)
 	} else if errors.As(err, &standardHttpError) {
 		standardErrorHandle(w, err.(*StandardHttpError))
 	} else {
@@ -151,7 +151,7 @@ func HttpErrorHandler(w http.ResponseWriter, req *http.Request, err error) {
 	}
 }
 
-func keErrorHandle(w http.ResponseWriter, err error) {
+func errorHandle(w http.ResponseWriter, err error) {
 	w.WriteHeader(200)
 	w.Header().Set("Content-Type", "application/json")
 	bodyBytes, _ := json.Marshal(err)

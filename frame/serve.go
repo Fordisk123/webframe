@@ -18,7 +18,7 @@ import (
 // 初始化kratos框架函数
 // name 和部署的工作负载名称必须一样
 // version 用于打印log时版本，跟随发行版本更改
-func KratosServe(name, version string, regHook func(httpSrv *http.Server), httpCustomMiddwares []kMidkdeware.Middleware) {
+func KratosServe(name, version string, regHook func(httpSrv *http.Server), errorHandler http.EncodeErrorFunc, httpCustomMiddlewares []kMidkdeware.Middleware) {
 	log.NewLogger(&log.Config{
 		AppName:      name,
 		Env:          viper.GetString("run.mode"),
@@ -39,14 +39,18 @@ func KratosServe(name, version string, regHook func(httpSrv *http.Server), httpC
 		middleware.LoggingMiddleware,
 		middleware.MetricMiddleware(),
 	)
-	if httpCustomMiddwares != nil && len(httpCustomMiddwares) > 0 {
-		httpMiddewares = append(httpMiddewares, httpCustomMiddwares...)
+	if httpCustomMiddlewares != nil && len(httpCustomMiddlewares) > 0 {
+		httpMiddewares = append(httpMiddewares, httpCustomMiddlewares...)
+	}
+
+	if errorHandler == nil {
+		errorHandler = errors.HttpErrorHandler
 	}
 
 	httpSrv := http.NewServer(
 		http.Address(":"+httpPort),
 		http.Middleware(httpMiddewares...),
-		http.ErrorEncoder(errors.HttpErrorHandler),
+		http.ErrorEncoder(errorHandler),
 		http.Timeout(10*time.Minute),
 	)
 	//swagger

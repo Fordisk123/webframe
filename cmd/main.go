@@ -24,6 +24,5 @@ func main() {
 
 	util.KratosServe(Name, Version, func(httpSrv *http.Server) {
 
-	}, nil)
-
+	}, nil, nil)
 }
