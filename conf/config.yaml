@@ -1,0 +1,10 @@
+run:
+  mode: DEV
+http:
+  port: 18080
+
+db:
+  username: root
+  password: Cda$LjF*9BK8
+  address: 172.26.29.228:3306
+  name: ftest
