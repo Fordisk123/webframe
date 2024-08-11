@@ -29,7 +29,7 @@ func InitDb() {
 
 func openMysqlDB(username, password, addr, name string) *gorm.DB {
 	var logLevel gormLogger.LogLevel
-	logLevelConf := strings.TrimSpace(strings.ToLower(viper.GetString("database.log_level")))
+	logLevelConf := strings.TrimSpace(strings.ToLower(viper.GetString("db.log_level")))
 	switch logLevelConf {
 	case "info":
 		{
