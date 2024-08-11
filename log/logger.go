@@ -3,6 +3,7 @@ package log
 import (
 	"context"
 	"fmt"
+	"github.com/ory/viper"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	lumberjack "gopkg.in/natefinch/lumberjack.v2"
@@ -53,6 +54,16 @@ type Logger struct {
 
 var initDefaultLoggerOnce sync.Once
 var DefaultLogger *Logger
+
+func NewDefaultLogger(name, version string) *Logger {
+	return NewLogger(&Config{
+		AppName:      name,
+		Env:          viper.GetString("run.mode"),
+		LogDir:       "logs",
+		MaxAge:       10,
+		MaxLogFileMB: 10,
+	}, "name", name, "version", version)
+}
 
 // 新建一个logger
 func NewLogger(config *Config, args ...interface{}) *Logger {

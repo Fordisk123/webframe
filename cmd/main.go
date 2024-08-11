@@ -4,6 +4,7 @@ import (
 	"github.com/Fordisk123/webframe/conf"
 	"github.com/Fordisk123/webframe/db"
 	util "github.com/Fordisk123/webframe/frame"
+	"github.com/Fordisk123/webframe/log"
 	"github.com/go-kratos/kratos/v2/transport/http"
 )
 
@@ -17,6 +18,8 @@ var (
 
 func main() {
 	conf.InitConf("./conf")
+
+	log.NewDefaultLogger(Name, Version)
 
 	db.InitDb()
 

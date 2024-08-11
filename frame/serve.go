@@ -19,13 +19,6 @@ import (
 // name 和部署的工作负载名称必须一样
 // version 用于打印log时版本，跟随发行版本更改
 func KratosServe(name, version string, regHook func(httpSrv *http.Server), errorHandler http.EncodeErrorFunc, httpCustomMiddlewares []kMidkdeware.Middleware) {
-	log.NewLogger(&log.Config{
-		AppName:      name,
-		Env:          viper.GetString("run.mode"),
-		LogDir:       "logs",
-		MaxAge:       10,
-		MaxLogFileMB: 10,
-	}, "name", name, "version", version)
 
 	//http端口默认8080
 	httpPort := viper.GetString("http.port")
