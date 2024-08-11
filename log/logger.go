@@ -47,6 +47,7 @@ type Config struct {
 
 type Logger struct {
 	*zap.Logger
+	writer io.Writer
 	config *Config
 }
 
@@ -102,26 +103,26 @@ func NewLogger(config *Config, args ...interface{}) *Logger {
 
 	var zapCore zapcore.Core
 
+	var writer io.Writer
 	switch config.Env {
 	case Prod:
 		{
 			//生产环境中，向文件输出经典日志
-			zapCore = zapcore.NewTee(
-				zapcore.NewCore(zapcore.NewConsoleEncoder(*config.EncoderConfig), zapcore.AddSync(getFileWriter(config)), allLevel),
-			)
+			writer = getFileWriter(config)
 		}
 
 	default:
-		//开发环境中，向控制台输出经典日志
-		zapCore = zapcore.NewTee(
-			zapcore.NewCore(zapcore.NewConsoleEncoder(*config.EncoderConfig), zapcore.AddSync(os.Stdout), allLevel),
-		)
+		writer = os.Stdout
 	}
+
+	zapCore = zapcore.NewTee(
+		zapcore.NewCore(zapcore.NewConsoleEncoder(*config.EncoderConfig), zapcore.AddSync(writer), allLevel),
+	)
 
 	logger := zap.New(zapCore, zap.AddCaller(), zap.AddStacktrace(zap.ErrorLevel))
 	logger.Named(config.AppName)
 	logger = logger.With(handleFields(logger, args)...)
-	DefaultLogger = &Logger{logger, config}
+	DefaultLogger = &Logger{logger, writer, config}
 	return DefaultLogger
 }
 
@@ -198,6 +199,10 @@ func (log *Logger) Warnf(template string, args ...interface{}) {
 
 func (log *Logger) Debugf(template string, args ...interface{}) {
 	log.Sugar().Debugf(template, args...)
+}
+
+func (log *Logger) GetWriter() io.Writer {
+	return log.writer
 }
 
 func (log *Logger) logFields(ctx context.Context, args ...interface{}) *Logger {

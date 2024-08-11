@@ -9,7 +9,6 @@ import (
 	"gorm.io/gorm"
 	gormLogger "gorm.io/gorm/logger"
 	"log"
-	"os"
 	"strings"
 	"time"
 )
@@ -52,7 +51,7 @@ func openMysqlDB(username, password, addr, name string) *gorm.DB {
 	}
 
 	newLogger := gormLogger.New(
-		log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
+		log.New(flog.DefaultLogger.GetWriter(), "\r\n", log.LstdFlags), // io writer
 		gormLogger.Config{
 			SlowThreshold:             3 * time.Second, // Slow SQL threshold
 			LogLevel:                  logLevel,        // Log level
